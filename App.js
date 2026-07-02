@@ -3,8 +3,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { StyleSheet, Text, View } from "react-native";
 
+import DetalleScreen from "./screens/DetalleScreen";
 import FavoritosEmergenciasScreen from "./screens/FavoritosEmergenciasScreen";
-
 function InicioScreen() {
   return (
     <View style={styles.container}>
@@ -17,14 +17,6 @@ function ListadoScreen() {
   return (
     <View style={styles.container}>
       <Text>Pantalla de Listado / Resultados 📋</Text>
-    </View>
-  );
-}
-
-function DetalleScreen() {
-  return (
-    <View style={styles.container}>
-      <Text>Pantalla de Detalle del Establecimiento 🏥</Text>
     </View>
   );
 }
