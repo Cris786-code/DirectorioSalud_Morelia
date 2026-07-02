@@ -66,7 +66,7 @@ export default function App() {
         <Tab.Screen
           name="Detalle"
           component={DetalleScreen}
-          options={{ title: "Detalles" }}
+          options={{ title: "Fotos" }}
         />
 
         {/* Aquí llamamos directamente a tu componente importado */}
