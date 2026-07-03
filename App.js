@@ -5,14 +5,7 @@ import { StyleSheet, Text, View } from "react-native";
 
 import DetalleScreen from "./screens/DetalleScreen";
 import FavoritosEmergenciasScreen from "./screens/FavoritosEmergenciasScreen";
-function InicioScreen() {
-  return (
-    <View style={styles.container}>
-      <Text>Pantalla de Inicio / Exploración 🔍</Text>
-    </View>
-  );
-}
-
+import InicioScreen from "./screens/InicioScreen";
 function ListadoScreen() {
   return (
     <View style={styles.container}>

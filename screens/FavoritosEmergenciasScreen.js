@@ -1,34 +1,28 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import {
-    Alert,
-    FlatList,
-    Linking,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Alert,
+  FlatList,
+  Linking,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import LugarCard from "../components/LugarCard";
 
-// Importamos la base de datos real de Morelia para la simulación
 import { directorioMedico } from "../data";
 
 export default function FavoritosEmergenciasScreen() {
-  // 1. EL ESTADO INICIA VACÍO [] (Como debe ser en la app real)
   const [favoritos, setFavoritos] = useState([]);
 
-  // Función para enlazar la llamada al 911
   const llamarEmergencia = () => {
     Linking.openURL("tel:911");
   };
 
-  // 2. FUNCIÓN DE SIMULACIÓN (Para que pruebes cómo se añade desde tu cel)
   const simularAgregarFavorito = () => {
-    // Tomamos el primer hospital de la base de datos (Hospital Civil)
     const hospitalDemo = directorioMedico[0];
 
-    // Verificamos si ya está agregado para no duplicarlo
     if (favoritos.some((item) => item.id === hospitalDemo.id)) {
       Alert.alert("Aviso", "El Hospital Civil ya está en tus favoritos.");
     } else {
@@ -36,7 +30,6 @@ export default function FavoritosEmergenciasScreen() {
     }
   };
 
-  // 3. FUNCIÓN PARA ELIMINAR UN FAVORITO
   const confirmarEliminar = (id, nombre) => {
     Alert.alert(
       "Quitar de Favoritos",
