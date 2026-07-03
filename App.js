@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
+import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 import DetalleScreen from "./screens/DetalleScreen";
@@ -17,6 +18,16 @@ function ListadoScreen() {
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+  const [favoritos, setFavoritos] = useState([]);
+
+  const toggleFavorito = (lugar) => {
+    setFavoritos((prev) =>
+      prev.some((item) => item.id === lugar.id)
+        ? prev.filter((item) => item.id !== lugar.id)
+        : [...prev, lugar],
+    );
+  };
+
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -46,11 +57,15 @@ export default function App() {
         })}
       >
         {/* 2. CONFIGURACIÓN DE LAS PESTAÑAS DEL MENÚ */}
-        <Tab.Screen
-          name="Inicio"
-          component={InicioScreen}
-          options={{ title: "Explorar" }}
-        />
+        <Tab.Screen name="Inicio" options={{ title: "Explorar" }}>
+          {(props) => (
+            <InicioScreen
+              {...props}
+              favoritos={favoritos}
+              toggleFavorito={toggleFavorito}
+            />
+          )}
+        </Tab.Screen>
         <Tab.Screen
           name="Listado"
           component={ListadoScreen}
@@ -63,11 +78,15 @@ export default function App() {
         />
 
         {/* Aquí llamamos directamente a tu componente importado */}
-        <Tab.Screen
-          name="Favoritos"
-          component={FavoritosEmergenciasScreen}
-          options={{ title: "Favoritos" }}
-        />
+        <Tab.Screen name="Favoritos" options={{ title: "Favoritos" }}>
+          {(props) => (
+            <FavoritosEmergenciasScreen
+              {...props}
+              favoritos={favoritos}
+              toggleFavorito={toggleFavorito}
+            />
+          )}
+        </Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>
   );

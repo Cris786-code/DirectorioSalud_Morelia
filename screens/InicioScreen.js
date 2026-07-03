@@ -4,18 +4,13 @@ import { FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import LugarCard from "../components/LugarCard";
 import lugares from "../data";
 
-export default function InicioScreen({ navigation }) {
+export default function InicioScreen({
+  navigation,
+  favoritos,
+  toggleFavorito,
+}) {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [favoritos, setFavoritos] = useState([]);
   const botonesFiltro = ["Todos", "Públicos", "Privados"];
-
-  const toggleFavorito = (lugar) => {
-    setFavoritos((prev) =>
-      prev.some((item) => item.id === lugar.id)
-        ? prev.filter((item) => item.id !== lugar.id)
-        : [...prev, lugar],
-    );
-  };
 
   const isFavorito = (item) => favoritos.some((fav) => fav.id === item.id);
 

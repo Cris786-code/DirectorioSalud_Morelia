@@ -1,5 +1,4 @@
 import { Ionicons } from "@expo/vector-icons";
-import { useState } from "react";
 import {
   Alert,
   FlatList,
@@ -11,36 +10,24 @@ import {
 } from "react-native";
 import LugarCard from "../components/LugarCard";
 
-import { directorioMedico } from "../data";
-
-export default function FavoritosEmergenciasScreen() {
-  const [favoritos, setFavoritos] = useState([]);
-
+export default function FavoritosEmergenciasScreen({
+  favoritos,
+  toggleFavorito,
+}) {
   const llamarEmergencia = () => {
     Linking.openURL("tel:911");
   };
 
-  const simularAgregarFavorito = () => {
-    const hospitalDemo = directorioMedico[0];
-
-    if (favoritos.some((item) => item.id === hospitalDemo.id)) {
-      Alert.alert("Aviso", "El Hospital Civil ya está en tus favoritos.");
-    } else {
-      setFavoritos([...favoritos, hospitalDemo]);
-    }
-  };
-
-  const confirmarEliminar = (id, nombre) => {
+  const confirmarEliminar = (item) => {
     Alert.alert(
       "Quitar de Favoritos",
-      `¿Deseas eliminar el "${nombre}" de tu lista de favoritos?`,
+      `¿Deseas eliminar el "${item.nombre}" de tu lista de favoritos?`,
       [
         { text: "Cancelar", style: "cancel" },
         {
           text: "Eliminar",
           style: "destructive",
-          onPress: () =>
-            setFavoritos(favoritos.filter((item) => item.id !== id)),
+          onPress: () => toggleFavorito(item),
         },
       ],
     );
@@ -71,7 +58,6 @@ export default function FavoritosEmergenciasScreen() {
         <Text style={styles.tituloSeccion}>Mis Hospitales Favoritos ❤️</Text>
 
         {favoritos.length === 0 ? (
-          // --- ESTADO VACÍO: Se muestra si el usuario no tiene favoritos ---
           <View style={styles.contenedorVacio}>
             <Ionicons name="heart-dislike-outline" size={60} color="#cbd5e1" />
             <Text style={styles.textoVacio}>
@@ -81,28 +67,17 @@ export default function FavoritosEmergenciasScreen() {
               Explora el directorio médico de Morelia y añade tus hospitales o
               clínicas frecuentes aquí.
             </Text>
-
-            {/* BOTÓN PROVISIONAL PARA MODO PRUEBA */}
-            <TouchableOpacity
-              style={styles.botonDemo}
-              onPress={simularAgregarFavorito}
-            >
-              <Ionicons name="add-circle-outline" size={20} color="#0284c7" />
-              <Text style={styles.textoBotonDemo}>
-                Simular agregar favorito (Modo Prueba)
-              </Text>
-            </TouchableOpacity>
           </View>
         ) : (
-          // --- ESTADO LLENO: Renderiza las tarjetas oficiales de la maestra ---
           <FlatList
             data={favoritos}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <LugarCard
                 lugar={item}
-                // Si el usuario presiona la tarjeta, le da la opción de borrarla
-                onPress={() => confirmarEliminar(item.id, item.nombre)}
+                favorito={true}
+                onFavoritePress={() => toggleFavorito(item)}
+                onPress={() => confirmarEliminar(item)}
               />
             )}
             showsVerticalScrollIndicator={false}
