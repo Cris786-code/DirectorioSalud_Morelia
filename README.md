@@ -1,4 +1,3 @@
-Aquí tienes el texto exacto en formato de código. Solo tienes que hacer clic en el botón de "Copiar" (arriba a la derecha de este bloque) y pegarlo directamente en tu editor de GitHub:
 
 ```markdown
 # 🏥 Directorio de Salud y Emergencias - Morelia
