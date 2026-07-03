@@ -13,6 +13,7 @@ import LugarCard from "../components/LugarCard";
 export default function FavoritosEmergenciasScreen({
   favoritos,
   toggleFavorito,
+  navigation,
 }) {
   const llamarEmergencia = () => {
     Linking.openURL("tel:911");
@@ -77,7 +78,7 @@ export default function FavoritosEmergenciasScreen({
                 lugar={item}
                 favorito={true}
                 onFavoritePress={() => toggleFavorito(item)}
-                onPress={() => confirmarEliminar(item)}
+                onPress={() => navigation.navigate("Detalle", { lugar: item })}
               />
             )}
             showsVerticalScrollIndicator={false}
