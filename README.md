@@ -1,52 +1,65 @@
-Aquí tienes la guía de actualización rápida lista para que la copies y la compartas con tu equipo. Todo está dentro del bloque de código como lo pediste:
+Aquí tienes el texto exacto en formato de código. Solo tienes que hacer clic en el botón de "Copiar" (arriba a la derecha de este bloque) y pegarlo directamente en tu editor de GitHub:
 
 ```markdown
-# 🔄 Guía Rápida: Cómo actualizar tu proyecto local
+# 🏥 Directorio de Salud y Emergencias - Morelia
 
-Sigue estos pasos cada vez que un compañero avise por el grupo que subió nuevos cambios a GitHub. Esto asegura que siempre tengas la versión más reciente del código.
+Una aplicación móvil desarrollada en **React Native (Expo)** diseñada para brindar a los ciudadanos de Morelia, Michoacán, acceso rápido a un directorio médico actualizado, gestión de hospitales favoritos y herramientas de respuesta ante emergencias.
 
-### Paso 1: Descargar los cambios
-Abre la terminal en Visual Studio Code (asegúrate de no tener el servidor de Expo corriendo) y ejecuta:
-```bash
-git pull origin main
+---
+
+## ✨ Características Principales
+
+* **🔍 Exploración y Listado:** Catálogo de los principales hospitales públicos y privados de Morelia con información de contacto y direcciones reales.
+* **❤️ Sistema de Favoritos:** Guarda y administra tus hospitales o clínicas de confianza para un acceso rápido. (Incluye manejo de estados y validación de duplicados).
+* **🚨 Botón de Emergencia:** Acceso directo para enlazar llamadas al **911** desde la aplicación.
+* **📱 UI/UX Personalizada:** Interfaz amigable con navegación por pestañas (Bottom Tabs) y tarjetas de presentación de alta calidad.
+* **📍 Funciones de Hardware (En desarrollo):** * Integración con **GPS** para compartir ubicación en caso de emergencia.
+  * Uso de la **Cámara** para adjuntar reportes fotográficos.
+
+---
+
+## 🛠️ Tecnologías Utilizadas
+
+* **Framework:** [React Native](https://reactnative.dev/) / [Expo](https://expo.dev/)
+* **Navegación:** React Navigation (Bottom Tabs)
+* **Iconografía:** Ionicons (@expo/vector-icons)
+* **Control de Versiones:** Git & GitHub
+
+---
+
+## 🚀 Instalación y Uso (Para Desarrolladores)
+
+Si eres parte del equipo o quieres correr este proyecto en tu entorno local, sigue estos pasos:
+
+1. **Clonar el repositorio:**
+   ```bash
+   git clone [https://github.com/Cris786-code/DirectorioSalud_Morelia.git](https://github.com/Cris786-code/DirectorioSalud_Morelia.git)
 
 ```
 
-### Paso 2: Actualizar librerías (Muy Importante)
+2. **Entrar a la carpeta del proyecto:**
+```bash
+cd DirectorioSalud_Morelia
 
-Si tu compañero agregó nuevas herramientas (como cámara, mapas, etc.), necesitas que tu computadora las instale. Ejecuta:
+```
 
+
+3. **Instalar las dependencias:**
 ```bash
 npm install
 
 ```
 
-### Paso 3: Arrancar el proyecto
 
-Una vez que termine de instalar, levanta el servidor limpiando la caché para que tome los cambios frescos:
-
+4. **Iniciar el servidor de desarrollo:**
 ```bash
 npx expo start -c
 
 ```
 
+
+> *Nota: Escanea el código QR con la app **Expo Go** en tu dispositivo físico (iOS/Android) para ver la aplicación en vivo.*
+
+
+
 ---
-
-## 🚨 Solución a Errores Comunes
-
-### Error de "Aborting" al hacer git pull
-
-Si al hacer `git pull` la terminal te marca un error rojo diciendo que tus cambios locales serán sobreescritos (generalmente por el archivo `package-lock.json`), usa este combo de comandos para forzar la descarga:
-
-```bash
-git reset --hard
-git pull origin main
-npm install
-
-```
-
-*(Nota: `git reset --hard` borrará cualquier cambio que no hayas guardado con un commit, úsalo solo para descartar archivos conflictivos).*
-
-```
-
-```
