@@ -1,50 +1,52 @@
-# Welcome to your Expo app 👋
+Aquí tienes la guía de actualización rápida lista para que la copies y la compartas con tu equipo. Todo está dentro del bloque de código como lo pediste:
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+```markdown
+# 🔄 Guía Rápida: Cómo actualizar tu proyecto local
 
-## Get started
+Sigue estos pasos cada vez que un compañero avise por el grupo que subió nuevos cambios a GitHub. Esto asegura que siempre tengas la versión más reciente del código.
 
-1. Install dependencies
-
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
+### Paso 1: Descargar los cambios
+Abre la terminal en Visual Studio Code (asegúrate de no tener el servidor de Expo corriendo) y ejecuta:
 ```bash
-npm run reset-project
+git pull origin main
+
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### Paso 2: Actualizar librerías (Muy Importante)
 
-## Learn more
+Si tu compañero agregó nuevas herramientas (como cámara, mapas, etc.), necesitas que tu computadora las instale. Ejecuta:
 
-To learn more about developing your project with Expo, look at the following resources:
+```bash
+npm install
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```
 
-## Join the community
+### Paso 3: Arrancar el proyecto
 
-Join our community of developers creating universal apps.
+Una vez que termine de instalar, levanta el servidor limpiando la caché para que tome los cambios frescos:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```bash
+npx expo start -c
+
+```
+
+---
+
+## 🚨 Solución a Errores Comunes
+
+### Error de "Aborting" al hacer git pull
+
+Si al hacer `git pull` la terminal te marca un error rojo diciendo que tus cambios locales serán sobreescritos (generalmente por el archivo `package-lock.json`), usa este combo de comandos para forzar la descarga:
+
+```bash
+git reset --hard
+git pull origin main
+npm install
+
+```
+
+*(Nota: `git reset --hard` borrará cualquier cambio que no hayas guardado con un commit, úsalo solo para descartar archivos conflictivos).*
+
+```
+
+```
