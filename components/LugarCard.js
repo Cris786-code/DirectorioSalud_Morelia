@@ -1,94 +1,68 @@
-import { Ionicons } from "@expo/vector-icons";
-import { Card, Text } from "@rneui/themed";
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import React from 'react';
+import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 
-export default function LugarCard({
-  lugar,
-  onPress,
-  favorito = false,
-  onFavoritePress,
-}) {
+export default function LugarCard({ lugar, onPress }) {
   return (
-    <TouchableOpacity onPress={onPress} activeOpacity={0.85}>
-      <Card containerStyle={styles.card}>
-        <View style={styles.imageWrapper}>
-          <Image source={lugar.imagen} style={styles.imagen} />
-          <TouchableOpacity
-            style={styles.favoriteButton}
-            onPress={(event) => {
-              event.stopPropagation?.();
-              onFavoritePress?.();
-            }}
-          >
-            <Ionicons
-              name={favorito ? "heart" : "heart-outline"}
-              size={22}
-              color={favorito ? "#e11d48" : "#fff"}
-            />
+    <View style={styles.card}>
+      <Image source={lugar.imagen} style={styles.imagen} />
+      
+      <View style={styles.contenido}>
+        <Text style={styles.categoria}>{lugar.categoria.toUpperCase()}</Text>
+        <Text style={styles.titulo}>{lugar.nombre}</Text>
+        
+        <View style={styles.divisor} />
+        
+        <Text style={styles.descripcion} numberOfLines={2}>{lugar.descripcion}</Text>
+        
+        <View style={styles.pieTarjeta}>
+          {/* Badge de tipo */}
+          <View style={[styles.badge, lugar.tipo === 'publico' ? styles.badgePublico : styles.badgePrivado]}>
+            <Text style={styles.badgeText}>{lugar.tipo === 'publico' ? 'Público' : 'Privado'}</Text>
+          </View>
+
+          {/* ¡NUEVO BOTÓN DE DETALLES! */}
+          <TouchableOpacity style={styles.botonDetalle} onPress={onPress} activeOpacity={0.7}>
+            <Text style={styles.textoBotonDetalle}>Ver detalles ➔</Text>
           </TouchableOpacity>
         </View>
-
-        <View style={styles.contenido}>
-          <Text style={styles.categoria}>{lugar.categoria.toUpperCase()}</Text>
-          <Card.Title style={styles.titulo}>{lugar.nombre}</Card.Title>
-          <Card.Divider />
-
-          <Text style={styles.descripcion}>{lugar.descripcion}</Text>
-
-          <View
-            style={[
-              styles.badge,
-              lugar.tipo === "publico"
-                ? styles.badgePublico
-                : styles.badgePrivado,
-            ]}
-          >
-            <Text style={styles.badgeText}>
-              {lugar.tipo === "publico" ? "Público" : "Privado"}
-            </Text>
-          </View>
-        </View>
-      </Card>
-    </TouchableOpacity>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  card: { borderRadius: 12, padding: 0, overflow: "hidden", marginBottom: 16 },
-  imageWrapper: { position: "relative" },
-  imagen: { width: "100%", height: 180, resizeMode: "cover" },
-  favoriteButton: {
-    position: "absolute",
-    top: 10,
-    right: 10,
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: "rgba(0,0,0,0.35)",
-    alignItems: "center",
-    justifyContent: "center",
+  card: { 
+    borderRadius: 12, 
+    backgroundColor: '#fff',
+    overflow: 'hidden', 
+    marginBottom: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3, 
   },
-  contenido: { padding: 12 },
-  categoria: {
-    fontSize: 11,
-    fontWeight: "bold",
-    color: "#007bff",
-    marginBottom: 4,
+  imagen: { width: '100%', height: 160, resizeMode: 'cover' },
+  contenido: { padding: 16 },
+  categoria: { fontSize: 11, fontWeight: 'bold', color: '#0284c7', marginBottom: 4 },
+  titulo: { fontSize: 17, fontWeight: 'bold', color: '#0f172a', marginBottom: 6 },
+  divisor: { height: 1, backgroundColor: '#e2e8f0', marginVertical: 8 },
+  descripcion: { fontSize: 13, color: '#475569', lineHeight: 18, marginBottom: 14 },
+  pieTarjeta: { 
+    flexDirection: 'row', 
+    justifyContent: 'space-between', 
+    alignItems: 'center',
+    marginTop: 4 
   },
-  titulo: { textAlign: "left", fontSize: 18, marginBottom: 4 },
-  descripcion: {
-    fontSize: 13,
-    color: "#555",
-    lineHeight: 20,
-    marginBottom: 12,
+  badge: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: 20 },
+  badgePublico: { backgroundColor: '#d4edda' },
+  badgePrivado: { backgroundColor: '#cce5ff' },
+  badgeText: { fontSize: 11, fontWeight: '600', color: '#1e293b' },
+  botonDetalle: { 
+    backgroundColor: '#0284c7', 
+    paddingHorizontal: 14, 
+    paddingVertical: 7, 
+    borderRadius: 6 
   },
-  badge: {
-    alignSelf: "flex-start",
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 20,
-  },
-  badgePublico: { backgroundColor: "#d4edda" },
-  badgePrivado: { backgroundColor: "#cce5ff" },
-  badgeText: { fontSize: 11, fontWeight: "600", color: "#333" },
+  textoBotonDetalle: { color: '#fff', fontSize: 12, fontWeight: '600' }
 });
