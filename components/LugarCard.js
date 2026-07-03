@@ -1,51 +1,38 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React from 'react';
+import { StyleSheet, TouchableOpacity, Image, View } from 'react-native';
+import { Card, Text } from '@rneui/themed';
 
 export default function LugarCard({ lugar, onPress }) {
   return (
     <TouchableOpacity onPress={onPress} activeOpacity={0.85}>
-      <View style={styles.card}>
+      <Card containerStyle={styles.card}>
         <Image source={lugar.imagen} style={styles.imagen} />
-        <Text style={styles.nombre}>{lugar.nombre}</Text>
-        <View style={styles.divider} />
-        <Text style={styles.descripcion}>{lugar.descripcion}</Text>
-      </View>
+        
+        <View style={styles.contenido}>
+          <Text style={styles.categoria}>{lugar.categoria.toUpperCase()}</Text>
+          <Card.Title style={styles.titulo}>{lugar.nombre}</Card.Title>
+          <Card.Divider />
+          
+          <Text style={styles.descripcion}>{lugar.descripcion}</Text>
+          
+          <View style={[styles.badge, lugar.tipo === 'publico' ? styles.badgePublico : styles.badgePrivado]}>
+            <Text style={styles.badgeText}>{lugar.tipo === 'publico' ? 'Público' : 'Privado'}</Text>
+          </View>
+        </View>
+      </Card>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
-    borderRadius: 12,
-    padding: 12,
-    overflow: "hidden",
-    marginBottom: 16,
-    backgroundColor: "#fff",
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  imagen: {
-    width: "100%",
-    height: 180,
-    resizeMode: "cover",
-    borderRadius: 8,
-  },
-  nombre: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginTop: 8,
-    marginBottom: 8,
-  },
-  divider: {
-    height: 1,
-    backgroundColor: "#e0e0e0",
-    marginBottom: 8,
-  },
-  descripcion: {
-    fontSize: 13,
-    color: "#555",
-    lineHeight: 20,
-    marginBottom: 8,
-  },
+  card: { borderRadius: 12, padding: 0, overflow: 'hidden', marginBottom: 16 },
+  imagen: { width: '100%', height: 180, resizeMode: 'cover' },
+  contenido: { padding: 12 },
+  categoria: { fontSize: 11, fontWeight: 'bold', color: '#007bff', marginBottom: 4 },
+  titulo: { textAlign: 'left', fontSize: 18, marginBottom: 4 },
+  descripcion: { fontSize: 13, color: '#555', lineHeight: 20, marginBottom: 12 },
+  badge: { alignSelf: 'flex-start', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 20 },
+  badgePublico: { backgroundColor: '#d4edda' },
+  badgePrivado: { backgroundColor: '#cce5ff' },
+  badgeText: { fontSize: 11, fontWeight: '600', color: '#333' }
 });
