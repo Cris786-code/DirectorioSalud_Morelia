@@ -77,7 +77,7 @@ export default function FavoritosEmergenciasScreen({
               <LugarCard
                 lugar={item}
                 favorito={true}
-                onFavoritePress={() => toggleFavorito(item)}
+                onFavoritePress={() => confirmarEliminar(item)}
                 onPress={() => navigation.navigate("Detalle", { lugar: item })}
               />
             )}

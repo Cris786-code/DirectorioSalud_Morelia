@@ -1,3 +1,4 @@
+import { Ionicons } from "@expo/vector-icons";
 import {
   Image,
   Linking,
@@ -9,21 +10,22 @@ import {
   View,
 } from "react-native";
 
-export default function DetalleScreen({ route }) {
-  const {
-    lugar = {
-      id: "1",
-      categoria: "Hospital",
-      nombre: 'Hospital Civil de Morelia "Dr. Miguel Silva"',
-      descripcion:
-        "Hospital público de alta especialidad que ofrece atención médica gratuita en más de 25 áreas y servicio de urgencias las 24 horas.",
-      imagen: {
-        uri: "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?q=80&w=600",
-      },
-      telefono: "4433229800",
-      direccion: "Paseo de la República, Morelia, Mich.",
-    },
-  } = route?.params || {};
+export default function DetalleScreen({
+  route,
+  favoritos = [],
+  toggleFavorito,
+}) {
+  const { lugar = null } = route?.params || {};
+
+  if (!lugar) {
+    return (
+      <View style={styles.emptyContainer}>
+        <Text style={styles.emptyText}>
+          Selecciona un lugar para ver los detalles
+        </Text>
+      </View>
+    );
+  }
 
   // Función para abrir mapas buscando por el nombre y dirección reales de tu data
   const abrirMapa = () => {
@@ -48,12 +50,13 @@ export default function DetalleScreen({ route }) {
     }
   };
 
-  // URL dinámica de un mapa estático limpio centrado en Morelia para simular el mapa real en la interfaz
-  const urlMapaEstatico = `https://maps.googleapis.com/maps/api/staticmap?center=19.7025,-101.1924&zoom=14&size=600x300&markers=color:red%7C19.7025,-101.1924&key=YOUR_API_KEY`;
+  const esFavorito = favoritos.some((fav) => fav.id === lugar.id);
 
-  // Usamos una imagen de mapa estético de respaldo bien estructurado
-  const mapaRespaldo =
-    "https://maps.visicom.ua/c/19.7022,101.1920,13/600x250.png?lang=es";
+  const manejarFavorito = () => {
+    if (toggleFavorito) {
+      toggleFavorito(lugar);
+    }
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -72,6 +75,28 @@ export default function DetalleScreen({ route }) {
 
         {/* Categoría */}
         <Text style={styles.categoria}>🏥 {lugar.categoria}</Text>
+
+        <TouchableOpacity
+          style={[
+            styles.botonFavorito,
+            esFavorito && styles.botonFavoritoActivo,
+          ]}
+          onPress={manejarFavorito}
+        >
+          <Ionicons
+            name={esFavorito ? "heart" : "heart-outline"}
+            size={18}
+            color={esFavorito ? "#fff" : "#e11d48"}
+          />
+          <Text
+            style={[
+              styles.textoBotonFavorito,
+              esFavorito && styles.textoBotonFavoritoActivo,
+            ]}
+          >
+            {esFavorito ? "Quitar de favoritos" : "Agregar a favoritos"}
+          </Text>
+        </TouchableOpacity>
 
         <View style={styles.divisor} />
 
@@ -137,6 +162,18 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#ffffff",
   },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#ffffff",
+  },
+  emptyText: {
+    fontSize: 16,
+    color: "#64748b",
+    textAlign: "center",
+    paddingHorizontal: 40,
+  },
   imagen: {
     width: "100%",
     height: 250,
@@ -155,6 +192,31 @@ const styles = StyleSheet.create({
     color: "#0284c7",
     fontWeight: "600",
     marginBottom: 10,
+  },
+  botonFavorito: {
+    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "flex-start",
+    gap: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: "#fecdd3",
+    marginBottom: 12,
+    backgroundColor: "#fff1f2",
+  },
+  botonFavoritoActivo: {
+    backgroundColor: "#e11d48",
+    borderColor: "#e11d48",
+  },
+  textoBotonFavorito: {
+    color: "#be123c",
+    fontWeight: "600",
+    fontSize: 13,
+  },
+  textoBotonFavoritoActivo: {
+    color: "#fff",
   },
   divisor: {
     height: 1,
