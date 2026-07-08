@@ -1,3 +1,6 @@
+// ============================================
+// 📦 IMPORTACIONES
+// ============================================
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
@@ -14,18 +17,24 @@ import {
 } from "react-native";
 
 import CamaraScreen from "./screens/CamaraScreen";
-import CercaDeTiScreen from "./screens/CercaDeTiScreen"; // pantalla de mapas
+import CercaDeTiScreen from "./screens/CercaDeTiScreen";
 import DetalleScreen from "./screens/DetalleScreen";
 import FavoritosEmergenciasScreen from "./screens/FavoritosEmergenciasScreen";
 import InicioScreen from "./screens/InicioScreen";
 import PreviewScreen from "./screens/PreviewScreen copy";
 
+// ============================================
+// ⚙️ CONFIGURACIÓN GLOBAL
+// ============================================
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
-
 const { width } = Dimensions.get("window");
 
-// 1. PANTALLA DE HISTORIAL (Aquí se reciben y muestran las fotos confirmadas)
+// ============================================
+// 🎨 COMPONENTES SECUNDARIOS
+// ============================================
+
+// Pantalla 1: Historial de Visitas (donde aparecen las fotos capturadas)
 function VisitasHistorialScreen({
   route,
   navigation,
@@ -102,7 +111,8 @@ function VisitasHistorialScreen({
   );
 }
 
-// 2. EL MENÚ DE PESTAÑAS INFERIOR (TABS)
+// Pantalla 2: Navegador de Pestañas Inferior (Tab Navigation)
+// Aquí se encuentran: Explorar, Cerca de ti, Visitas, Favoritos
 function MainTabs({
   favoritos,
   toggleFavorito,
@@ -135,6 +145,7 @@ function MainTabs({
         headerTintColor: "#0f172a",
       })}
     >
+      {/* ▸ PESTAÑA 1: Explorar */}
       <Tab.Screen name="Inicio" options={{ title: "Explorar" }}>
         {(props) => (
           <InicioScreen
@@ -145,6 +156,7 @@ function MainTabs({
         )}
       </Tab.Screen>
 
+      {/* ▸ PESTAÑA 2: Mapa */}
       <Tab.Screen name="CercaDeTi" options={{ title: "Cerca de ti" }}>
         {(props) => (
           <CercaDeTiScreen
@@ -155,6 +167,7 @@ function MainTabs({
         )}
       </Tab.Screen>
 
+      {/* ▸ PESTAÑA 3: Historial de Visitas */}
       <Tab.Screen name="Visitas">
         {(props) => (
           <VisitasHistorialScreen
@@ -165,6 +178,7 @@ function MainTabs({
         )}
       </Tab.Screen>
 
+      {/* ▸ PESTAÑA 4: Favoritos */}
       <Tab.Screen name="Favoritos" options={{ title: "Favoritos" }}>
         {(props) => (
           <FavoritosEmergenciasScreen
@@ -178,12 +192,20 @@ function MainTabs({
   );
 }
 
-// 3. NAVEGADOR GLOBAL (STACK)
+// ============================================
+// 🚀 COMPONENTE PRINCIPAL DE LA APP
+// ============================================
+// Aquí está todo:
+// - Stack Navigator (navegación global)
+// - Main (Tab Navigation)
+// - Cámara, Preview, Detalles
 export default function App() {
+  // ---- ESTADOS GLOBALES ----
   const [favoritos, setFavoritos] = useState([]);
-  // Historial global de visitas (permite múltiples imágenes)
   const [historialVisitas, setHistorialVisitas] = useState([]);
 
+  // ---- FUNCIONES ----
+  // Agregar nueva visita al historial
   const addVisit = (visit) => {
     setHistorialVisitas((prev) => {
       const exists = prev.some((v) => v.timestamp === visit.timestamp);
@@ -191,6 +213,7 @@ export default function App() {
     });
   };
 
+  // Agregar/quitar favoritos
   const toggleFavorito = (lugar) => {
     setFavoritos((prev) =>
       prev.some((item) => item.id === lugar.id)
@@ -199,10 +222,11 @@ export default function App() {
     );
   };
 
+  // ---- RENDERIZADO ----
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {/* Aquí vive todo el menú de pestañas principales */}
+        {/* SCREEN 1: Menú principal con pestañas */}
         <Stack.Screen name="Main" options={{ headerShown: false }}>
           {() => (
             <MainTabs
@@ -214,19 +238,19 @@ export default function App() {
           )}
         </Stack.Screen>
 
-        {/* Pantalla de cámara abierta desde Historial */}
+        {/* SCREEN 2: Pantalla de cámara (abierta desde el historial) */}
         <Stack.Screen
           name="Camara"
           component={CamaraScreen}
           options={{ headerShown: false }}
         />
 
-        {/* Esta pantalla oculta se dispara desde la cámara en pantalla completa */}
+        {/* SCREEN 3: Vista previa de foto antes de guardar */}
         <Stack.Screen name="Preview" options={{ headerShown: false }}>
           {(props) => <PreviewScreen {...props} addVisit={addVisit} />}
         </Stack.Screen>
 
-        {/* Pantalla de detalles del lugar */}
+        {/* SCREEN 4: Detalles del lugar seleccionado */}
         <Stack.Screen
           name="Detalle"
           options={{ title: "Detalles del Lugar", headerShown: true }}
@@ -244,6 +268,9 @@ export default function App() {
   );
 }
 
+// ============================================
+// 🎨 ESTILOS (StyleSheet)
+// ============================================
 const styles = StyleSheet.create({
   container: {
     flex: 1,
